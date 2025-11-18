@@ -19,7 +19,11 @@ namespace Web.Controllers
         {
             return View(db.Customers.ToList());
         }
-
+        public ActionResult Check(int ? id)
+        { 
+           
+           return View();
+        }
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {

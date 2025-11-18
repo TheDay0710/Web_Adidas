@@ -4,9 +4,37 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    /* Căn giữa với Flexbox */
+    .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+    }
 
-<h2>Tài khoảng</h2>
-
-<p>
-    @Html.ActionLink("Tạo Tài Khoảng Mới", "Create")
-</p>
+    .box {
+        width: 200px;
+        height: 100px;
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        line-height: 100px;
+    }
+    
+</style>
+<section>
+    <h2>Tài khoảng</h2>
+    <div class ="flex-center">
+    <div class="box">
+        <p>
+            @Html.ActionLink("Tạo Tài Khoảng Mới", "Create")
+        </p>
+       
+        <p>
+            @Html.ActionLink("Đăng Nhập", "Check")
+        </p>
+    </div>
+   </div>
+</section>

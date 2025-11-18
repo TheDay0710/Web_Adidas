@@ -1,0 +1,51 @@
+﻿@model Web.Customer
+
+@{
+    ViewBag.Title = "Check";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+    <div class="login-container">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="login-header">
+                <h4>Đăng Nhập</h4>
+                <p>Vui lòng nhập thông tin tài khoản của bạn</p>
+            </div>
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary-errors" })
+            <hr />
+
+            <div class="form-group">
+                <h6>Tên Người Dùng</h6>
+                <div class="col-md-12">
+                    @Html.TextBox("UserName", "", new { @class = "form-control", placeholder = "Nhập tên người dùng", required = "required" })
+                    @Html.ValidationMessage("UserName", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h6>Mật Khẩu</h6>
+                <div class="col-md-12">
+                    @Html.Password("Password", "", new { @class = "form-control", placeholder = "Nhập mật khẩu", required = "required" })
+                    @Html.ValidationMessage("Password", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" value="Đăng Nhập" class="btn btn-login" />
+
+                </div>
+            </div>
+        }
+
+        <div class="login-footer">
+            <p>Chưa có tài khoản? @Html.ActionLink("Đăng ký ngay", "Create")</p>        
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
