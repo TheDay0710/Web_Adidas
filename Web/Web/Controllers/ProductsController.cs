@@ -14,14 +14,23 @@ namespace Web.Controllers
     {
         private DBADIDASEntities db = new DBADIDASEntities();
 
-        // GET: Products
-        public ActionResult Index()
+        
+        public ActionResult Index(string searchString)
         {
+          
             var products = db.Products.Include(p => p.Category);
+
+         
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.NamePro.Contains(searchString));
+            }
+
+           
             return View(products.ToList());
         }
 
-        // GET: Products/Details/5
+       
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,16 +45,14 @@ namespace Web.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
+     
         public ActionResult Create()
         {
             ViewBag.CateID = new SelectList(db.Categories, "IDCate", "NameCate");
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProductID,NamePro,DecriptionPro,CateID,Price,ImagePro")] Product product)
@@ -61,7 +68,7 @@ namespace Web.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
+     
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,9 +84,7 @@ namespace Web.Controllers
             return View(product);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProductID,NamePro,DecriptionPro,CateID,Price,ImagePro")] Product product)
@@ -94,7 +99,7 @@ namespace Web.Controllers
             return View(product);
         }
 
-        // GET: Products/Delete/5
+     
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -109,7 +114,7 @@ namespace Web.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
+   
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

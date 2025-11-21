@@ -7,10 +7,10 @@
 }
 
 <style>
-    /* --- 2. BANNER (ẢNH TĨNH) --- */
+    /* --- 1. BANNER (ẢNH TĨNH) --- */
     .banner {
-        background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.ibb.co/Rp5pPvnQ/banner-giayadidas-1.jpg');
-        height: 70vh;
+        background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://i.ibb.co/Rp5pPvnQ/banner-giayadidas-1.jpg');
+        height: 75vh;
         background-size: cover;
         background-position: center;
         display: flex;
@@ -26,186 +26,187 @@
         color: #fff;
         font-family: 'Oswald', sans-serif;
         text-transform: uppercase;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
     .banner-content p {
         font-size: 1.2rem;
         margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
-    .btn {
+    .btn-banner {
         display: inline-block;
         background: #fff;
-        color: #333;
-        padding: 0.8rem 2rem;
+        color: #000;
+        padding: 12px 30px;
         border: none;
-        cursor: pointer;
         font-size: 1rem;
         font-weight: bold;
         text-transform: uppercase;
         transition: all 0.3s ease;
         text-decoration: none;
+        font-family: 'Oswald', sans-serif;
+        letter-spacing: 1px;
     }
 
-        .btn:hover {
+        .btn-banner:hover {
+            background: #000;
+            color: #fff;
+        }
+
+    /* --- 2. THANH TRƯỢT NGANG (HORIZONTAL SCROLL) --- */
+    .horizontal-scroll-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .scroll-container {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        gap: 20px;
+        padding: 20px 5px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+    /* Kích thước thẻ sản phẩm/kit */
+    .product-item, .kit-item {
+        flex: 0 0 280px;
+        width: 280px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .product-item:hover, .kit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+    /* Nút mũi tên điều hướng */
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+        .scroll-btn:hover {
+            background: #000;
+            color: #fff;
+        }
+
+    .scroll-left {
+        left: -20px;
+    }
+
+    .scroll-right {
+        right: -20px;
+    }
+
+    /* --- 3. STYLE SẢN PHẨM (SỬA LỖI ẢNH BỊ CHE TẠI ĐÂY) --- */
+    .section-title {
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+    /* Sửa lại phần ảnh sản phẩm */
+    .product-image {
+        width: 100%;
+        height: 280px; /* Cố định chiều cao */
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* QUAN TRỌNG: Giúp ảnh hiển thị trọn vẹn */
+            display: block;
+            padding: 10px;
+        }
+
+    .product-info {
+        padding: 15px;
+        text-align: left;
+    }
+
+    .product-name {
+        font-size: 1rem;
+        margin: 5px 0;
+        height: 40px;
+        overflow: hidden;
+        font-weight: bold;
+    }
+
+    .product-price {
+        font-weight: bold;
+        color: #000;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    .add-to-cart-link {
+        display: block;
+        text-align: center;
+        padding: 12px;
+        background: #000;
+        color: #fff;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-size: 13px;
+        margin: 0 15px 15px 15px;
+    }
+
+        .add-to-cart-link:hover {
             background: #333;
             color: #fff;
         }
 
-    /* --- SẢN PHẨM NỔI BẬT (CAROUSEL) --- */
-    .featured-products {
-        padding: 4rem 0;
-    }
-
-    .carousel-container {
-        position: relative;
-        width: 100%;
-        display: flex;
-        align-items: center;
-    }
-
-    .product-carousel-wrapper {
-        width: 100%;
-        overflow-x: hidden;
-        scroll-behavior: smooth;
-    }
-
-        .product-carousel-wrapper .product-grid {
-            display: flex;
-            flex-wrap: nowrap;
-            width: max-content;
-            padding: 1rem 0;
-            grid-template-columns: unset;
-            gap: 2rem;
-        }
-
-        .product-carousel-wrapper .product-item {
-            flex: 0 0 280px;
-            width: 280px;
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            text-align: center;
-            padding: 1.5rem;
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-            .product-carousel-wrapper .product-item:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-            }
-
-            .product-carousel-wrapper .product-item img {
-                max-width: 100%;
-                height: auto;
-                margin-bottom: 1rem;
-            }
-
-            .product-carousel-wrapper .product-item h3 {
-                font-size: 1.2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .product-carousel-wrapper .product-item .price {
-                font-weight: bold;
-                color: #111;
-                margin-bottom: 1rem;
-                font-size: 1.1rem;
-            }
-
-    
-    .add-to-cart-btn {
-        background: #111;
-        color: #fff;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        cursor: pointer;
-        text-transform: uppercase;
-        font-weight: bold;
-        border-radius: 30px;
-        transition: background 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
-        text-align: center;
-        font-size: 14px;
-    }
-
-        .add-to-cart-btn:hover {
-            background: #555;
-            color: #fff;
-        }
-
-
-    .carousel-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
-        font-weight: bold;
-        cursor: pointer;
-        z-index: 10;
-        transition: background-color 0.3s ease;
-    }
-
-    .prev-btn {
-        left: -25px;
-    }
-
-    .next-btn {
-        right: -25px;
-    }
-
-   
-    .iconic-kits {
-        padding: 4rem 0;
-        background-color: #fff;
-    }
-
-        .iconic-kits h2 {
-            text-align: left;
-            padding-left: 20px;
-            text-transform: uppercase;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700;
-        }
-
-    .kits-container {
-        display: flex;
-        overflow-x: auto;
-        gap: 1.5rem;
-        padding: 1rem 20px;
-        scrollbar-width: none;
-    }
-
-        .kits-container::-webkit-scrollbar {
-            display: none;
-        }
-
+    /* --- 4. ICONIC KITS (SỬA LỖI ẢNH BỊ CHE) --- */
     .kit-item {
-        flex: 0 0 320px;
-        width: 320px;
+        border: none;
     }
 
     .kit-image-wrapper {
         position: relative;
         display: block;
+        width: 100%;
+        height: 350px; /* Cố định chiều cao khung ảnh */
+        background-color: #f0f0f0; /* Nền xám nhẹ */
         overflow: hidden;
-        border-radius: 8px;
     }
 
         .kit-image-wrapper img {
             width: 100%;
-            display: block;
+            height: 100%;
+            object-fit: contain; /* QUAN TRỌNG: Hiển thị full ảnh áo không bị cắt */
             transition: transform 0.4s ease;
         }
 
@@ -215,149 +216,48 @@
 
     .kit-overlay-text {
         position: absolute;
-        top: 20px;
-        left: 20px;
-        color: white;
-        font-size: 2.5rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        top: 10px;
+        left: 15px;
+        color: #000; /* Đổi màu chữ thành đen để dễ nhìn trên nền xám */
         font-family: 'Oswald', sans-serif;
+        font-weight: 700;
+        font-size: 2rem;
+        text-shadow: none;
     }
 
     .kit-info {
-        padding-top: 1rem;
+        padding: 15px 5px;
     }
 
-        .kit-info h4 {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-
-        .kit-info p {
-            color: #6c757d;
-            margin-bottom: 0.5rem;
-        }
-
-    .buy-now-link {
-        font-weight: bold;
-        color: #111;
+    .buy-now {
         text-decoration: underline;
-        text-transform: capitalize;
-    }
-
- 
-    .products {
-        padding: 4rem 0;
-    }
-
-        .products h2 {
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        .products .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .products .product-item {
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            border-radius: 4px;
-            overflow: hidden;
-            transition: box-shadow 0.3s ease;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-            .products .product-item:hover {
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            }
-
-            .products .product-item > a {
-                text-decoration: none;
-                color: inherit;
-                display: block;
-            }
-
-    .product-image {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        background: #f8f9fa;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-
-    .products .product-item:hover .product-image img {
-        transform: scale(1.05);
-    }
-
-    .product-info {
-        padding: 1rem;
-        text-align: left;
-    }
-
-    .product-brand {
-        color: #6c757d;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        margin-bottom: 0.25rem;
-        display: block;
-    }
-
-    .product-name {
-        font-size: 0.9rem;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        color: #111;
-    }
-
-    .product-price {
         font-weight: bold;
-        color: #111;
-        font-size: 1rem;
+        color: #000;
+        text-transform: uppercase;
+        font-size: 13px;
     }
 
-    .products .add-to-cart-btn {
-        margin: 1rem;
-        margin-top: auto;
-      
+    /* --- 5. TẤT CẢ SẢN PHẨM (GRID VIEW) --- */
+    .product-grid-view {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
     }
 
-  
+    /* --- 6. BRAND STORY --- */
     .brand-story {
-        background: #111;
-        color: #f1f1f1;
-        padding: 4rem 2rem;
+        background: #000;
+        color: #fff;
+        padding: 60px 20px;
         text-align: center;
-        margin-top: 4rem;
+        margin-top: 60px;
     }
-
-        .brand-story h2 {
-            color: #fff;
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-        }
 
         .brand-story p {
             max-width: 800px;
-            margin: 1rem auto;
-            line-height: 1.8;
+            margin: 0 auto;
             color: #ccc;
+            line-height: 1.6;
         }
 </style>
 
@@ -365,116 +265,135 @@
     <div class="banner-content">
         <h2>BỘ SƯU TẬP MỚI NHẤT 2025</h2>
         <p>Khám phá những thiết kế đột phá và công nghệ đỉnh cao.</p>
-        <a href="#all-products" class="btn">Bắt đầu mua sắm</a>
+        <a href="#all-products" class="btn-banner">BẮT ĐẦU MUA SẮM <i class="fas fa-arrow-right ms-2"></i></a>
     </div>
 </section>
 
-<div class="container">
+<div class="container py-5">
 
-    <section class="featured-products">
-        <h2 style="font-family: 'Oswald', sans-serif; text-transform: uppercase; font-weight: 700;">Sản Phẩm Nổi Bật</h2>
+    <section class="featured-products mb-5">
+        <h2 class="section-title">SẢN PHẨM NỔI BẬT</h2>
 
-        <div class="carousel-container">
-            <div class="product-carousel-wrapper">
-                <div class="product-grid">
-                    @foreach (var product in Model.Take(5))
-                    {
-                        <div class="product-item">
-                            <img src="~/Content/images/@product.ImagePro" alt="@product.NamePro" />
-                            <div>
-                                <h3>@product.NamePro</h3>
-                                <p class="price">@string.Format("{0:N0} ₫", product.Price)</p>
+        <div class="horizontal-scroll-wrapper">
+            <button class="scroll-btn scroll-left" onclick="scrollList('featured-list', -300)"><i class="fas fa-chevron-left"></i></button>
+            <button class="scroll-btn scroll-right" onclick="scrollList('featured-list', 300)"><i class="fas fa-chevron-right"></i></button>
+
+            <div class="scroll-container" id="featured-list">
+                @foreach (var product in Model.Take(8))
+                {
+                    <div class="product-item">
+                        <a href="@Url.Action("Details", "Product", new { id = product.ProductID })" style="text-decoration:none; color:inherit;">
+                            <div class="product-image">
+                                <img src="~/Content/images/@product.ImagePro" alt="@product.NamePro" />
                             </div>
+                            <div class="product-info">
+                                <h3 class="product-name">@product.NamePro</h3>
+                                <p class="product-price">@string.Format("{0:N0} ₫", product.Price)</p>
+                            </div>
+                        </a>
 
-                            <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID })" class="add-to-cart-btn">
-                                Thêm vào giỏ
-                            </a>
-                        </div>
-                    }
-                </div>
+                        <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID })" class="add-to-cart-link">
+                            THÊM VÀO GIỎ
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </section>
 
-    <section class="iconic-kits">
-        <h2>ICONIC KITS. TIMELESS LEGACY.</h2>
-        <div class="kits-container">
-            <div class="kit-item">
-                <a href="#" class="kit-image-wrapper">
-                    <img src="~/Content/images/nv1.jpg" alt="Juventus Kit" />
-                    <h3 class="kit-overlay-text">Juventus</h3>
-                </a>
-                <div class="kit-info">
-                    <h4>Juventus 25/26 Third Kit</h4>
-                    <p>Năng lượng Bò Tót cho Bianconeri.</p>
-                    <a href="#" class="buy-now-link">Mua ngay</a>
-                </div>
-            </div>
+    <section class="iconic-kits mb-5">
+        <h2 class="section-title">ICONIC KITS. TIMELESS LEGACY.</h2>
 
-            <div class="kit-item">
-                <a href="#" class="kit-image-wrapper">
-                    <img src="~/Content/images/nv2.jpg" alt="Real Madrid Kit" />
-                    <h3 class="kit-overlay-text">Real Madrid</h3>
-                </a>
-                <div class="kit-info">
-                    <h4>Real Madrid 25/26 Third Kit</h4>
-                    <p>Màu biểu tượng. Madrid trường tồn.</p>
-                    <a href="#" class="buy-now-link">Mua ngay</a>
-                </div>
-            </div>
+        <div class="horizontal-scroll-wrapper">
+            <button class="scroll-btn scroll-left" onclick="scrollList('kit-list', -300)"><i class="fas fa-chevron-left"></i></button>
+            <button class="scroll-btn scroll-right" onclick="scrollList('kit-list', 300)"><i class="fas fa-chevron-right"></i></button>
 
-            <div class="kit-item">
-                <a href="#" class="kit-image-wrapper">
-                    <img src="~/Content/images/nv3.jpg" alt="Man Utd Kit" />
-                    <h3 class="kit-overlay-text">Man Utd</h3>
-                </a>
-                <div class="kit-info">
-                    <h4>ManUtd 25/26 Third Kit</h4>
-                    <p>Một biểu tượng bóng đá được cải biên.</p>
-                    <a href="#" class="buy-now-link">Mua ngay</a>
+            <div class="scroll-container" id="kit-list">
+                <div class="kit-item">
+                    <a href="#" class="kit-image-wrapper">
+                        <img src="~/Content/images/nv1.jpg" alt="Juventus" />
+                        <h3 class="kit-overlay-text">JUVENTUS</h3>
+                    </a>
+                    <div class="kit-info">
+                        <h4 style="font-weight:bold; font-size:14px;">Juventus 25/26 Third Kit</h4>
+                        <p style="font-size:13px; color:#666;">Năng lượng Bò Tót.</p>
+                        <a href="#" class="buy-now">MUA NGAY</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="kit-item">
-                <a href="#" class="kit-image-wrapper">
-                    <img src="~/Content/images/nv4.jpg" alt="Arsenal Kit" />
-                    <h3 class="kit-overlay-text">Arsenal</h3>
-                </a>
-                <div class="kit-info">
-                    <h4>Áo Đấu Thứ Ba Arsenal 25/26</h4>
-                    <p>Dư âm Highbury, thiết kế táo bạo.</p>
-                    <a href="#" class="buy-now-link">Mua ngay</a>
+                <div class="kit-item">
+                    <a href="#" class="kit-image-wrapper">
+                        <img src="~/Content/images/nv2.jpg" alt="Real Madrid" />
+                        <h3 class="kit-overlay-text">REAL MADRID</h3>
+                    </a>
+                    <div class="kit-info">
+                        <h4 style="font-weight:bold; font-size:14px;">Real Madrid 25/26 Third Kit</h4>
+                        <p style="font-size:13px; color:#666;">Màu biểu tượng.</p>
+                        <a href="#" class="buy-now">MUA NGAY</a>
+                    </div>
+                </div>
+
+                <div class="kit-item">
+                    <a href="#" class="kit-image-wrapper">
+                        <img src="~/Content/images/nv3.jpg" alt="Man Utd" />
+                        <h3 class="kit-overlay-text">MAN UTD</h3>
+                    </a>
+                    <div class="kit-info">
+                        <h4 style="font-weight:bold; font-size:14px;">ManUtd 25/26 Third Kit</h4>
+                        <p style="font-size:13px; color:#666;">Biểu tượng cải biên.</p>
+                        <a href="#" class="buy-now">MUA NGAY</a>
+                    </div>
+                </div>
+
+                <div class="kit-item">
+                    <a href="#" class="kit-image-wrapper">
+                        <img src="~/Content/images/nv4.jpg" alt="Arsenal" />
+                        <h3 class="kit-overlay-text">ARSENAL</h3>
+                    </a>
+                    <div class="kit-info">
+                        <h4 style="font-weight:bold; font-size:14px;">Arsenal 25/26 Third Kit</h4>
+                        <p style="font-size:13px; color:#666;">Dư âm Highbury.</p>
+                        <a href="#" class="buy-now">MUA NGAY</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="products" id="all-products">
-        <h2>TẤT CẢ SẢN PHẨM</h2>
+        <h2 class="section-title">TẤT CẢ SẢN PHẨM</h2>
 
-        <div class="product-grid">
+        <div class="product-grid-view">
             @foreach (var product in Model)
             {
                 <div class="product-item">
-                    <a href="@Url.Action("Details", "Product", new { id = product.ProductID })">
+                    <a href="@Url.Action("Details", "Product", new { id = product.ProductID })" style="text-decoration:none; color:inherit;">
                         <div class="product-image">
                             <img src="~/Content/images/@product.ImagePro" alt="@product.NamePro" />
                         </div>
                         <div class="product-info">
-                            <span class="product-brand">@product.DecriptionPro</span>
                             <h3 class="product-name">@product.NamePro</h3>
                             <p class="product-price">@string.Format("{0:N0} ₫", product.Price)</p>
                         </div>
                     </a>
 
-                    <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID })" class="add-to-cart-btn" style="text-align:center;">
-                        Thêm vào giỏ
+                    <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID })" class="add-to-cart-link">
+                        THÊM VÀO GIỎ
                     </a>
                 </div>
             }
         </div>
     </section>
 
-   
+    
 
 </div>
+
+<script>
+    function scrollList(elementId, amount) {
+        const container = document.getElementById(elementId);
+        if (container) {
+            container.scrollBy({ left: amount, behavior: 'smooth' });
+        }
+    }
+</script>

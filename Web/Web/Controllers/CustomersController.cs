@@ -14,72 +14,110 @@ namespace Web.Controllers
     {
         private DBADIDASEntities db = new DBADIDASEntities();
 
-        // GET: Customers
-        public ActionResult Index()
+        
+        public ActionResult Login()
         {
-            return View(db.Customers.ToList());
-        }
-        public ActionResult Check(int ? id)
-        { 
-           
-           return View();
-        }
-        // GET: Customers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(customer);
+            return View();
         }
 
-        // GET: Customers/Create
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string UserName, string Password)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                var user = db.Customers.FirstOrDefault(u => u.UserName.Equals(UserName) && u.Password.Equals(Password));
+
+                if (user != null)
+                {
+                   
+                    Session["IDCus"] = user.IDCus;
+                    Session["NameCus"] = user.NameCus;
+                    Session["UserName"] = user.UserName;
+
+                    
+                    if (Session["Cart"] != null)
+                    {
+                        return RedirectToAction("Index", "Payment");
+                    }
+                    
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không đúng!";
+                }
+            }
+            return View();
+        }
+
+        
+        public ActionResult Logout()
+        {
+            Session.Clear(); 
+            return RedirectToAction("Index", "Home");
+        }
+
+        
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IDCus,NameCus,PhoneCus,EmailCus,UserName,Password")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                db.Customers.Add(customer);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+               
+                var checkUser = db.Customers.FirstOrDefault(s => s.UserName == customer.UserName);
+                if (checkUser == null)
+                {
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
 
+                   
+                    Session["IDCus"] = customer.IDCus;
+                    Session["NameCus"] = customer.NameCus;
+                    Session["UserName"] = customer.UserName;
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.Error = "Tên đăng nhập này đã tồn tại!";
+                    return View(customer);
+                }
+            }
             return View(customer);
         }
 
-        // GET: Customers/Edit/5
+       
+        public ActionResult Index()
+        {
+            return View(db.Customers.ToList());
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            Customer customer = db.Customers.Find(id);
+            if (customer == null) return HttpNotFound();
+            return View(customer);
+        }
+
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
+            if (customer == null) return HttpNotFound();
             return View(customer);
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IDCus,NameCus,PhoneCus,EmailCus,UserName,Password")] Customer customer)
@@ -93,22 +131,14 @@ namespace Web.Controllers
             return View(customer);
         }
 
-        // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
+            if (customer == null) return HttpNotFound();
             return View(customer);
         }
 
-        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -121,10 +151,7 @@ namespace Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+            if (disposing) db.Dispose();
             base.Dispose(disposing);
         }
     }
