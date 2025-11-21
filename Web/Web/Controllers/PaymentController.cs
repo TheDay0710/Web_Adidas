@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Web;
+using Web; 
 
 namespace Web.Controllers
 {
@@ -10,36 +10,74 @@ namespace Web.Controllers
     {
         DBADIDASEntities db = new DBADIDASEntities();
 
+       
         public ActionResult Index()
         {
-            var dummyCart = new List<Product>
+            if (Session["Cart"] == null)
             {
-                new Product { NamePro = "GIÀY ULTRABOOST LIGHT", Price = 5000000, ImagePro = "tải xuống.jpg" },
-                new Product { NamePro = "ÁO THUN 3 SỌC", Price = 800000, ImagePro = "sh" }
-            };
+                return RedirectToAction("Index", "Cart");
+            }
 
-            ViewBag.Cart = dummyCart;
-            ViewBag.Total = dummyCart.Sum(x => x.Price);
+           
+            var cart = Session["Cart"] as List<CartItem>;
+
+           
+            ViewBag.Cart = cart.Select(x => x._shopping_product).ToList();
+
+            
+            ViewBag.Total = cart.Sum(x => x._shopping_product.Price * x._shopping_quantity);
 
             return View();
         }
 
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ProcessOrder(OrderPro order)
         {
             if (ModelState.IsValid)
             {
+                
                 order.DateOrder = DateTime.Now;
                 db.OrderProes.Add(order);
                 db.SaveChanges();
 
+              
+                var cart = Session["Cart"] as List<CartItem>;
+                foreach (var item in cart)
+                {
+                    OrderDetail detail = new OrderDetail();
+                    detail.IDOrder = order.ID;
+                    detail.IDProduct = item._shopping_product.ProductID;
+
+               
+                    detail.Quantity = item._shopping_quantity;
+
+                   
+                    detail.UnitPrice = (double)item._shopping_product.Price.GetValueOrDefault(0);
+
+                    db.OrderDetails.Add(detail);
+                }
+                db.SaveChanges();
+
+              
+                Session["Cart"] = null;
+
+             
                 return RedirectToAction("Success", new { id = order.ID });
             }
 
+          
+            if (Session["Cart"] != null)
+            {
+                var cart = Session["Cart"] as List<CartItem>;
+                ViewBag.Cart = cart.Select(x => x._shopping_product).ToList();
+                ViewBag.Total = cart.Sum(x => x._shopping_product.Price * x._shopping_quantity);
+            }
             return View("Index", order);
         }
 
+       
         public ActionResult Success(int? id)
         {
             if (id.HasValue)
@@ -47,7 +85,6 @@ namespace Web.Controllers
                 var order = db.OrderProes.Find(id);
                 return View(order);
             }
-
             return View();
         }
     }

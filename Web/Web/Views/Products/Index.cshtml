@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Trang Chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
@@ -23,6 +24,8 @@
         font-size: 3.5rem;
         margin-bottom: 1rem;
         color: #fff;
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
     }
 
     .banner-content p {
@@ -41,6 +44,7 @@
         font-weight: bold;
         text-transform: uppercase;
         transition: all 0.3s ease;
+        text-decoration: none;
     }
 
         .btn:hover {
@@ -85,6 +89,9 @@
             padding: 1.5rem;
             transition: box-shadow 0.3s ease, transform 0.3s ease;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
             .product-carousel-wrapper .product-item:hover {
@@ -110,21 +117,27 @@
                 font-size: 1.1rem;
             }
 
-        .product-carousel-wrapper .add-to-cart-btn {
-            background: #111;
-            color: #fff;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-weight: bold;
-            border-radius: 30px;
-            transition: background 0.3s ease;
-        }
+    
+    .add-to-cart-btn {
+        background: #111;
+        color: #fff;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: bold;
+        border-radius: 30px;
+        transition: background 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        font-size: 14px;
+    }
 
-            .product-carousel-wrapper .add-to-cart-btn:hover {
-                background: #555;
-            }
+        .add-to-cart-btn:hover {
+            background: #555;
+            color: #fff;
+        }
 
 
     .carousel-btn {
@@ -152,7 +165,7 @@
         right: -25px;
     }
 
-    /* --- KHỐI ICONIC KITS --- */
+   
     .iconic-kits {
         padding: 4rem 0;
         background-color: #fff;
@@ -162,6 +175,8 @@
             text-align: left;
             padding-left: 20px;
             text-transform: uppercase;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
         }
 
     .kits-container {
@@ -207,6 +222,7 @@
         font-weight: 700;
         text-transform: uppercase;
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        font-family: 'Oswald', sans-serif;
     }
 
     .kit-info {
@@ -231,10 +247,16 @@
         text-transform: capitalize;
     }
 
-    /* --- KHỐI LƯỚI SẢN PHẨM (GRID VIEW) --- */
+ 
     .products {
         padding: 4rem 0;
     }
+
+        .products h2 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
 
         .products .product-grid {
             display: grid;
@@ -313,22 +335,10 @@
     .products .add-to-cart-btn {
         margin: 1rem;
         margin-top: auto;
-        background: #111;
-        color: #fff;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        cursor: pointer;
-        text-transform: uppercase;
-        font-weight: bold;
-        border-radius: 30px;
-        transition: background 0.3s ease;
+      
     }
 
-        .products .add-to-cart-btn:hover {
-            background: #555;
-        }
-
-    /* --- KHỐI GIỚI THIỆU THƯƠNG HIỆU --- */
+  
     .brand-story {
         background: #111;
         color: #f1f1f1;
@@ -339,6 +349,8 @@
 
         .brand-story h2 {
             color: #fff;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
         }
 
         .brand-story p {
@@ -347,48 +359,46 @@
             line-height: 1.8;
             color: #ccc;
         }
-
 </style>
+
 <section class="banner">
     <div class="banner-content">
         <h2>BỘ SƯU TẬP MỚI NHẤT 2025</h2>
         <p>Khám phá những thiết kế đột phá và công nghệ đỉnh cao.</p>
-        <a href="#" class="btn">Bắt đầu mua sắm</a>
+        <a href="#all-products" class="btn">Bắt đầu mua sắm</a>
     </div>
 </section>
 
 <div class="container">
 
-    <!-- SẢN PHẨM NỔI BẬT -->
     <section class="featured-products">
-        <h2>Sản Phẩm Nổi Bật</h2>
+        <h2 style="font-family: 'Oswald', sans-serif; text-transform: uppercase; font-weight: 700;">Sản Phẩm Nổi Bật</h2>
 
         <div class="carousel-container">
-           
-
             <div class="product-carousel-wrapper">
                 <div class="product-grid">
-                    @foreach (var product in Model.Take(3))
+                    @foreach (var product in Model.Take(5))
                     {
                         <div class="product-item">
                             <img src="~/Content/images/@product.ImagePro" alt="@product.NamePro" />
-                            <h3>@product.NamePro</h3>
-                            <p class="price">@product.Price₫</p>
-                            <button class="add-to-cart-btn">Thêm vào giỏ</button>
+                            <div>
+                                <h3>@product.NamePro</h3>
+                                <p class="price">@string.Format("{0:N0} ₫", product.Price)</p>
+                            </div>
+
+                            <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID })" class="add-to-cart-btn">
+                                Thêm vào giỏ
+                            </a>
                         </div>
                     }
                 </div>
             </div>
-
-           
         </div>
     </section>
-   
-    <!-- ICONIC KITS -->
+
     <section class="iconic-kits">
         <h2>ICONIC KITS. TIMELESS LEGACY.</h2>
         <div class="kits-container">
-
             <div class="kit-item">
                 <a href="#" class="kit-image-wrapper">
                     <img src="~/Content/images/nv1.jpg" alt="Juventus Kit" />
@@ -436,44 +446,35 @@
                     <a href="#" class="buy-now-link">Mua ngay</a>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- TẤT CẢ SẢN PHẨM -->
-    <section class="products">
+    <section class="products" id="all-products">
         <h2>TẤT CẢ SẢN PHẨM</h2>
 
         <div class="product-grid">
             @foreach (var product in Model)
             {
                 <div class="product-item">
-                    <a href="#">
+                    <a href="@Url.Action("Details", "Product", new { id = product.ProductID })">
                         <div class="product-image">
                             <img src="~/Content/images/@product.ImagePro" alt="@product.NamePro" />
                         </div>
                         <div class="product-info">
                             <span class="product-brand">@product.DecriptionPro</span>
                             <h3 class="product-name">@product.NamePro</h3>
-                            <p class="product-price">@product.Price ₫</p>
+                            <p class="product-price">@string.Format("{0:N0} ₫", product.Price)</p>
                         </div>
                     </a>
-                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
+
+                    <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID })" class="add-to-cart-btn" style="text-align:center;">
+                        Thêm vào giỏ
+                    </a>
                 </div>
             }
         </div>
     </section>
 
-    <!-- BRAND STORY -->
-    <section class="brand-story">
-        <h2>CỬA HÀNG THỂ THAO AD-STORE - HIỆU NĂNG & PHONG CÁCH</h2>
-        <p>
-            Thể thao nâng cao sức khoẻ. Giúp bạn luôn tỉnh táo. Kết nối chúng ta.
-            Thông qua thể thao, chúng ta có sức mạnh để thay đổi cuộc sống.
-        </p>
-        <p>
-            Khám phá cửa hàng trực tuyến của chúng tôi để cập nhật những bộ sưu tập mới nhất.
-        </p>
-    </section>
+   
 
 </div>
